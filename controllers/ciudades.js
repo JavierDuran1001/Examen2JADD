@@ -8,9 +8,8 @@ exports.postAgregarCiudades = async (req,res)=>{
         const CiudadExistente = await Ciudades.exists({ciudad: req.body.ciudad, lugar: req.body.lugar, contadorinteres: req.body.contadorinteres})
         if (CiudadExistente) {
             res.send({operacion: "ciudad ya registrada"})
-            const ciu = await Ciudades.findOneAndUpdate({_id:req.body._id}, {contadorinteres:req.body.contadorinteres+1})
+            const ciu = await Ciudades.findOneAndUpdate({lugar:req.body.lugar}, {contadorinteres:req.body.contadorinteres+1})
             res.json(ciu)
-        //Agregar el documento a la coleccion
         } else {
             await ciudad.save()
             console.log(ciudad)
@@ -32,7 +31,7 @@ exports.getObtenerCiudades = async (req,res)=>{
 
 exports.postObtenerCiudades = async (req,res)=>{
     try{
-        const ciu = await Ciudades.findOne(req.body.nombre)
+        const ciu = await Ciudades.findOne(Ciudades.req.body.pais)
         res.send(ciu)
     } catch(err){
         console.log(err)
@@ -41,7 +40,6 @@ exports.postObtenerCiudades = async (req,res)=>{
 }
 
 exports.postActualizarCiudades = async (req,res)=>{
-    //Filtro y cambio
     try{
         await Ciudades.findOneAndUpdate(req.body.filtro, req.body.cambio)
         console.log("Cambio realizado")

@@ -8,8 +8,8 @@ exports.postAgregarCiudades = async (req,res)=>{
         const CiudadExistente = await Ciudades.exists({ciudad: req.body.ciudad, lugar: req.body.lugar, contadorinteres: req.body.contadorinteres})
         if (CiudadExistente) {
             res.send({operacion: "ciudad ya registrada"})
-            res.findOneAndUpdate(req.body.contadorinteres, req.body.contadorinteres+1)
-
+            const ciu = await Ciudades.findOneAndUpdate({_id:req.body._id}, {contadorinteres:req.body.contadorinteres+1})
+            res.json(ciu)
         //Agregar el documento a la coleccion
         } else {
             await ciudad.save()
